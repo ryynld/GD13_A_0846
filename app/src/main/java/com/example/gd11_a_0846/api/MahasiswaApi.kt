@@ -6,7 +6,7 @@ class MahasiswaApi {
 
         val GET_ALL_URL = BASE_URL + "mahasiswa/"
         val GET_BY_ID_URL = BASE_URL + "mahasiswa/"
-        val ADD_URL = BASE_URL + "mahasiswa"
+        val ADD_URL = BASE_URL + "mahasiswa/"
         val UPDATE_URL = BASE_URL + "mahasiswa/"
         val DELETE_URL = BASE_URL + "mahasiswa/"
     }

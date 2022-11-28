@@ -21,7 +21,6 @@ import kotlin.collections.ArrayList
 
 class MahasiswaAdapter (private var mahasiswaList: List<Mahasiswa>, context: Context) :
     RecyclerView.Adapter<MahasiswaAdapter.ViewHolder>(), Filterable {
-
     private var filteredMahasiswaList: MutableList<Mahasiswa>
     private val context: Context
 
@@ -45,7 +44,7 @@ class MahasiswaAdapter (private var mahasiswaList: List<Mahasiswa>, context: Con
         filteredMahasiswaList = mahasiswaList.toMutableList()
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int){
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mahasiswa = filteredMahasiswaList[position]
         holder.tvNama.text = mahasiswa.nama
         holder.tvNPM.text = mahasiswa.npm
@@ -54,11 +53,11 @@ class MahasiswaAdapter (private var mahasiswaList: List<Mahasiswa>, context: Con
 
         holder.btnDelete.setOnClickListener {
             val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-            materialAlertDialogBuilder.setTitle("Konfirmasi")
-                .setMessage("Apakah anda yakin ingin menghapus data mahasiswa ini?")
+            materialAlertDialogBuilder.setTitle("konfirmasi")
+                .setMessage("Apakah Anda Yakin Ingin Menghapus Data Mahasiswa Ini?")
                 .setNegativeButton("Batal", null)
-                .setPositiveButton("Hapus") {_, _ ->
-                    if(context is MainActivity) mahasiswa.id?.let { it1 ->
+                .setPositiveButton("Hapus") { _, _ ->
+                    if (context is MainActivity) mahasiswa.id?.let { it1 ->
                         context.deleteMahasiswa(
                             it1
                         )
@@ -66,7 +65,6 @@ class MahasiswaAdapter (private var mahasiswaList: List<Mahasiswa>, context: Con
                 }
                 .show()
         }
-
         holder.cvMahasiswa.setOnClickListener{
             val i = Intent(context, AddEditActivity::class.java)
             i.putExtra("id", mahasiswa.id)
@@ -76,17 +74,17 @@ class MahasiswaAdapter (private var mahasiswaList: List<Mahasiswa>, context: Con
     }
 
     override fun getFilter(): Filter {
-        return object : Filter() {
+        return object : Filter(){
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 val charSequenceString = charSequence.toString()
                 val filtered: MutableList<Mahasiswa> = java.util.ArrayList()
-                if (charSequenceString.isEmpty()) {
+                if(charSequenceString.isEmpty()){
                     filtered.addAll(mahasiswaList)
-                } else {
-                    for (mahasiswa in mahasiswaList) {
-                        if (mahasiswa.nama.lowercase(Locale.getDefault())
+                }else{
+                    for(mahasiswa in mahasiswaList){
+                        if(mahasiswa.nama.lowercase(Locale.getDefault())
                                 .contains(charSequenceString.lowercase(Locale.getDefault()))
-                        ) filtered.add(mahasiswa)
+                        )filtered.add(mahasiswa)
                     }
                 }
                 val filterResults = FilterResults()
@@ -94,30 +92,29 @@ class MahasiswaAdapter (private var mahasiswaList: List<Mahasiswa>, context: Con
                 return filterResults
             }
 
-            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults?) {
                 filteredMahasiswaList.clear()
-                filteredMahasiswaList.addAll((filterResults.values as List<Mahasiswa>))
+                filteredMahasiswaList.addAll(filterResults?.values as List<Mahasiswa>)
                 notifyDataSetChanged()
             }
         }
     }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var tvNama: TextView
-        var tvNPM: TextView
-        var tvFakultas: TextView
-        var tvProdi: TextView
-        var btnDelete: ImageButton
-        var cvMahasiswa: CardView
+        var tvNama : TextView
+        var tvNPM : TextView
+        var tvFakultas : TextView
+        var tvProdi : TextView
+        var btnDelete : ImageButton
+        var cvMahasiswa : CardView
 
         init {
             tvNama = itemView.findViewById(R.id.tv_nama)
             tvNPM = itemView.findViewById(R.id.tv_npm)
-            tvFakultas = itemView.findViewById(R.id.tv_prodi)
-            tvProdi = itemView.findViewById(R.id.tv_fakultas)
+            tvFakultas = itemView.findViewById(R.id.tv_fakultas)
+            tvProdi = itemView.findViewById(R.id.tv_prodi)
             btnDelete = itemView.findViewById(R.id.btn_delete)
             cvMahasiswa = itemView.findViewById(R.id.cv_mahasiswa)
-
         }
-
     }
 }
